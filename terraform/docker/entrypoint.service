@@ -1,0 +1,11 @@
+[Unit]
+Description=entrypoint.sh starter
+
+[Service]
+Type=oneshot
+ExecStart=/bin/bash /entrypoint.sh
+RemainAfterExit=true
+StandardOutput=journal
+
+[Install]
+WantedBy=multi-user.target

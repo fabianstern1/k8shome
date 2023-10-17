@@ -47,5 +47,12 @@ resource "docker_container" "node" {
     name = "${docker_network.network.name}"
     ipv4_address = "175.30.0.${count.index + 2}"
   }
+  volumes {
+    host_path = "/sys/fs/cgroup"
+    container_path = "/sys/fs/cgroup"
+    read_only = true
+  }
+  privileged = true
+  
 
 }

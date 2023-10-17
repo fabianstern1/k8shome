@@ -18,4 +18,6 @@ for FILEPATH in /keys/*; do
 done
 
 # Start the SSHD server
+mkdir -p /run/sshd
+rm -rf /run/nologin
 exec /usr/sbin/sshd -D

@@ -1,11 +1,12 @@
-FROM ubuntu:22.04
+#FROM ubuntu:22.04
+FROM jrei/systemd-ubuntu:22.04
 RUN apt update -y && apt install -y openssh-server netstat-nat net-tools curl wget sudo iproute2
 
 COPY sshd_config /etc/ssh/sshd_config
 ADD keys /keys
 
 # Set up the SSHD configuration
-RUN mkdir /var/run/sshd && \
+RUN mkdir -p /var/run/sshd && \
     sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config && \
     sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin no/' /etc/ssh/sshd_config
 
@@ -26,5 +27,9 @@ RUN chmod +x /entrypoint.sh
 # Hack for Kubernetes in Docker: Ignore Swapoff Command
 RUN cp /usr/sbin/swapoff /usr/sbin/swapoff2 && cp -f /usr/bin/echo /usr/sbin/swapoff
 
-# Start the SSHD server
-ENTRYPOINT ["/entrypoint.sh"]
+# Start our entrypoint.sh service for Initialization and Disable onboard sshd.service
+ADD entrypoint.service /etc/systemd/system/entrypoint.service
+RUN systemctl enable entrypoint.service && systemctl disable sshd.service
+ENTRYPOINT ["/lib/systemd/systemd"]
+
+
