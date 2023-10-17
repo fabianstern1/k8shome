@@ -1,0 +1,7 @@
+kubespray-venv/
+kubespray/
+.terraform/
+*.tfstate
+*.tfstate.backup
+*.lock.*
+
