@@ -1,5 +1,5 @@
 FROM ubuntu:22.04
-RUN apt update -y && apt install -y openssh-server netstat-nat net-tools curl wget sudo
+RUN apt update -y && apt install -y openssh-server netstat-nat net-tools curl wget sudo iproute2
 
 COPY sshd_config /etc/ssh/sshd_config
 ADD keys /keys
