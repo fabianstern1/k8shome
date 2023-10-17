@@ -23,5 +23,8 @@ EXPOSE 22
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
+# Hack for Kubernetes in Docker: Ignore Swapoff Command
+RUN cp /usr/sbin/swapoff /usr/sbin/swapoff2 && cp -f /usr/bin/echo /usr/sbin/swapoff
+
 # Start the SSHD server
 ENTRYPOINT ["/entrypoint.sh"]
